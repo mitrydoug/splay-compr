@@ -1,3 +1,6 @@
+# The executable for running the code
+run-tests
+
 # Compiled Object files
 *.slo
 *.lo
