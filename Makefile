@@ -1,7 +1,7 @@
 CXXFLAGS =-std=c++11 -Wall -Werror -O0 -g
 CXX = g++
 
-OBJECTS = Main.o
+OBJECTS = Main.o StreamTransformer.o VerbatimTransformer.o PrefixTransformer.o VerbatimBitTransformer.o ReverseTransformer.o StreamEncoder.o AlphaRunLengthEncoder.o
 
 default: run-tests
 
@@ -13,4 +13,4 @@ Main.o: Main.cpp
 %.o: %.cpp %.h
 
 clean:
-	rm -f run-tests *.0 *~
+	rm -f run-tests *.o *~

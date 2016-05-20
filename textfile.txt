@@ -1,0 +1,6 @@
+This is a text file. Here come some new lines ...
+
+
+... but see, here I remain.
+
+This is the end.
