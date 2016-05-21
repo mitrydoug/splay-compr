@@ -22,13 +22,13 @@ int main() {
     cout << os.str() << endl;
 
     stringstream os2;
-    stringstream is2("abbccccrrrrrrnvbwww");
+    stringstream is2("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb");
     AlphaRunLengthEncoder arle(ENCODE);
     connect(is2, os2, &arle);
     cout << os2.str() << endl;
 
     stringstream os3;
-    stringstream is3("abbccccrrrrrrnvbwww");
+    stringstream is3("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb");
     AlphaRunLengthEncoder arle2(ENCODE);
     AlphaRunLengthEncoder arld(DECODE);
     connect(is3, os3, &arle2, &arld);

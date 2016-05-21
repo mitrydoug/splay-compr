@@ -5,6 +5,7 @@
 
 using namespace std;
 
+/* Simply copies a stream over from input to output unmodified */
 class VerbatimTransformer : public StreamTransformer {
 
   protected:
