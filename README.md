@@ -30,5 +30,7 @@ ifstream is("inputfile.txt"); // could be any input stream, like cin for instanc
 ofstream os("outputfile.txt");
 CoolTransformer ct;
 AwesomeTransformer at;
-connect(is, os, &ct, &at); // Can have as many Transformers in here as you like; here there's only 2 (&ct and &at)
+connect(is, os, &ct, &at); // Can have as many Transformers in here as you like;
+                           // here there's only 2 (&ct and &at)
 ```
+Here, the transformation happens when the call to `connect()` is made. In this example, the stream starts from `is`, is transformed by `ct`, then is transformed again by `at`, finally those results are sent to the output `os`.
