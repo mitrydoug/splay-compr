@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class VerbatimTransformer : public StreamTransformerImpl {
+class VerbatimTransformer : public StreamTransformer {
 
   protected:
 

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-class ReverseTransformer : public StreamTransformerImpl {
+class ReverseTransformer : public StreamTransformer {
 
   protected:
 

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool StreamTransformerImpl::readByte(byte &by) {
+bool StreamTransformer::readByte(byte &by) {
 
     if (readBits > 0) {
         throw "Can't intermingle reading bits/bytes."
@@ -23,7 +23,7 @@ bool StreamTransformerImpl::readByte(byte &by) {
     return true;
 }
 
-bool StreamTransformerImpl::readBit(bit &bi) {
+bool StreamTransformer::readBit(bit &bi) {
 
     if (readBits == 0) {
         if (!readByte(readByteBuf)) return false; // end of file
@@ -35,11 +35,11 @@ bool StreamTransformerImpl::readBit(bit &bi) {
     return true;
 }
 
-void StreamTransformerImpl::dropByte() {
+void StreamTransformer::dropByte() {
         readBits = 0;
 }
 
-void StreamTransformerImpl::writeByte(byte by) {
+void StreamTransformer::writeByte(byte by) {
 
     if (writeBits > 0) {
         throw "Can't intermingle writing bits/bytes."
@@ -54,7 +54,7 @@ void StreamTransformerImpl::writeByte(byte by) {
     }
 }
 
-void StreamTransformerImpl::writeBit(bit bi) {
+void StreamTransformer::writeBit(bit bi) {
 
     writeByteBuf = (writeByteBuf << 1) + (bi ? 1 : 0);
     writeBits++;
@@ -65,13 +65,13 @@ void StreamTransformerImpl::writeBit(bit bi) {
     }
 }
 
-void StreamTransformerImpl::flushByte() {
+void StreamTransformer::flushByte() {
     writeByteBuf <<= (8-writeBits);
     writeBits = 0; 
     writeByte(writeByteBuf);
 }
 
-void StreamTransformerImpl::pipe(istream &is, ostream &os) {
+void StreamTransformer::pipe(istream &is, ostream &os) {
     input = &is;
     output = &os;
     transform();

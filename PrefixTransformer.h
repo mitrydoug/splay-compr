@@ -3,12 +3,12 @@
 
 #include "StreamTransformer.h"
 
-class PrefixTransformer : public StreamTransformerImpl {
+class PrefixTransformer : public StreamTransformer {
   public:
       PrefixTransformer(std::string p) : prefix(p) {}
 
   protected:
-      virtual void transform();
+      void transform();
 
   private:
       std::string prefix;

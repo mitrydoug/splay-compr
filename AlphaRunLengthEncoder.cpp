@@ -27,6 +27,14 @@ void AlphaRunLengthEncoder::encode() {
             throw "This encoder only handles aplphabet characters and spaces";
         }
     }
+    if (runlength > 0) {
+        ostringstream convertInt;
+        convertInt << runlength;
+        for(char ch : convertInt.str()) {
+            writeByte(ch);
+        }
+        writeByte(running);
+    }
 }
 
 void AlphaRunLengthEncoder::decode() {

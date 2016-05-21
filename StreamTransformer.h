@@ -11,22 +11,16 @@ typedef unsigned char byte;
 /* A typedef for representing single bits */
 typedef bool bit;
 
-/* Declaring the class for the purposes of the following typeclass */
-class StreamTransformerImpl;
-
-/* Typedef */
-typedef StreamTransformerImpl* StreamTransformer;
-
 /* Abstract Class: StreamTransformer
  * ---------------------------------
  * Describes abstract interface for a class that performs a transformation on
  * a stream of bytes.
  */
-class StreamTransformerImpl {
+class StreamTransformer {
   protected:
 
     /* Constructs a StreamTransformer with an input and output source */
-    StreamTransformerImpl()
+    StreamTransformer()
       : input(nullptr),
         output(nullptr),
         readBits(0),
@@ -105,14 +99,14 @@ class StreamTransformerImpl {
     virtual void transform()=0;
 
     template<typename... Args>
-    friend void connect(std::istream &is, std::ostream &os, StreamTransformer st,
+    friend void connect(std::istream &is, std::ostream &os, StreamTransformer* st,
                         Args... sts) {
         std::stringstream ss;
         st->pipe(is, ss);
         connect(ss, os, sts...); 
     }
 
-    friend void connect(std::istream &is, std::ostream &os, StreamTransformer st) {
+    friend void connect(std::istream &is, std::ostream &os, StreamTransformer* st) {
         st->pipe(is, os);
     }
 

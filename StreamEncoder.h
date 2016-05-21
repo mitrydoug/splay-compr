@@ -10,7 +10,7 @@ typedef enum EncoderMode {
     DECODE
 } EncoderMode;
 
-class StreamEncoder : public StreamTransformerImpl {
+class StreamEncoder : public StreamTransformer {
 
   protected:
 
