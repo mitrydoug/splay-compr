@@ -17,6 +17,11 @@ using namespace std;
  */
 class AlphaRunLengthEncoder : public StreamEncoder {
 
+  public:
+
+    /* Constructor, to interface with encoding */
+    AlphaRunLengthEncoder(EncoderMode mode) : StreamEncoder(mode) {}
+
   protected:
 
     /* These functions are no longer purely virtual, so we will define them
