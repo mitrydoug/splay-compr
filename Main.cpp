@@ -34,5 +34,7 @@ int main() {
     connect(is3, os3, &arle2, &arld);
     cout << os3.str() << endl;
 
+    cout << "Alpha Run Length Digest:\n" << arle2.getDigest() << endl;
+
     return 0;
 }

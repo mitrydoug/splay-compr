@@ -11,6 +11,17 @@ typedef unsigned char byte;
 /* A typedef for representing single bits */
 typedef bool bit;
 
+typedef struct TransformDigest {
+    TransformDigest()
+      : bytesIn(0), bytesOut(0) {}
+    size_t bytesIn;
+    size_t bytesOut;
+    friend std::ostream& operator<<(std::ostream& out, 
+            struct TransformDigest &dg);
+    friend std::ostream& operator<<(std::ostream& out, 
+            struct TransformDigest &&dg);
+} TransformDigest;
+
 /* Abstract Class: StreamTransformer
  * ---------------------------------
  * Describes abstract interface for a class that performs a transformation on
@@ -79,8 +90,13 @@ class StreamTransformer {
     /* Storage buffer for writeBit() */
     byte writeByteBuf;
 
-    /* */
+    /* Function used by connect() to send stream data through this transformer
+     * and back into the output stream.
+     */
     void pipe(std::istream &is, std::ostream &os);
+
+    /* A list of information about any particular stream transformation. */
+    TransformDigest digest;
 
   public:
 
@@ -97,6 +113,8 @@ class StreamTransformer {
      * classes. 
      */
     virtual void transform()=0;
+
+    TransformDigest getDigest();
 
     template<typename... Args>
     friend void connect(std::istream &is, std::ostream &os, StreamTransformer* st,

@@ -2,6 +2,20 @@
 
 using namespace std;
 
+ostream& operator<<(ostream &out, TransformDigest &dg) {
+    out << "Bytes Read: " << dg.bytesIn << endl;
+    out << "Bytes Written: " << dg.bytesOut << endl;
+    return out;
+}
+
+ostream& operator<<(ostream &out, TransformDigest &&dg) {
+    out << "Bytes Read: " << dg.bytesIn << endl;
+    out << "Bytes Written: " << dg.bytesOut << endl;
+    return out;
+}
+
+TransformDigest StreamTransformer::getDigest() { return digest; }
+
 bool StreamTransformer::readByte(byte &by) {
 
     if (readBits > 0) {
@@ -20,6 +34,10 @@ bool StreamTransformer::readByte(byte &by) {
     if (input->fail()) {
         throw "Input Stream Error";
     }
+
+    // increment the number of bytes read.
+    digest.bytesIn++;
+
     return true;
 }
 
@@ -52,6 +70,8 @@ void StreamTransformer::writeByte(byte by) {
     if (output->fail()) {
         throw "Output Stream Error";
     }
+
+    digest.bytesOut++;
 }
 
 void StreamTransformer::writeBit(bit bi) {
@@ -72,7 +92,13 @@ void StreamTransformer::flushByte() {
 }
 
 void StreamTransformer::pipe(istream &is, ostream &os) {
+   
+    /* Construct a new digest, copy is over */
+    digest = TransformDigest();
+
     input = &is;
     output = &os;
     transform();
+    input = nullptr;
+    output = nullptr;
 }
