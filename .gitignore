@@ -29,3 +29,7 @@ run-tests
 *.exe
 *.out
 *.app
+
+# Images
+*.ppm
+*.jpg

@@ -39,6 +39,20 @@ class StreamTransformer {
         readByteBuf(0),
         writeByteBuf(0) {/* empty constructor */}
 
+    /* The main interface of the stream transformer. This function is
+     * responsible for using the read/write bit/byte functions below to perform
+     * the desired transformation on the byte stream.
+     *
+     * This is an abstract function, meaning it has no implementation in the
+     * StreamTransformer class. Instead, this function must be overriden by
+     * deriving classes. (it's like an interface or abstract class in Java).
+     *
+     * The "=0;" is C++ syntax that enforces that this function cannot be
+     * defined in StreamTransformer, so then must be transformed by deriving
+     * classes. 
+     */
+    virtual void transform()=0;
+
     /* Helper functions for the transform() function, to access the input and
      * output stream in a homogenious way
      */
@@ -70,13 +84,13 @@ class StreamTransformer {
      */
     void flushByte();
 
-  private:
-
     /* Bytes will be read from the input stream, eventually to be deposited to
      * the output stream after transformation
      */
     std::istream *input;
     std::ostream *output;
+
+  private:
 
     /* Determines if a partial byte is being read by readBit() */
     size_t readBits;
@@ -90,33 +104,19 @@ class StreamTransformer {
     /* Storage buffer for writeBit() */
     byte writeByteBuf;
 
-    /* Function used by connect() to send stream data through this transformer
-     * and back into the output stream.
-     */
-    void pipe(std::istream &is, std::ostream &os);
-
     /* A list of information about any particular stream transformation. */
     TransformDigest digest;
 
   public:
 
-    /* The main interface of the stream transformer. This function is
-     * responsible for using the read/write bit/byte functions below to perform
-     * the desired transformation on the byte stream.
-     *
-     * This is an abstract function, meaning it has no implementation in the
-     * StreamTransformer class. Instead, this function must be overriden by
-     * deriving classes. (it's like an interface or abstract class in Java).
-     *
-     * The "=0;" is C++ syntax that enforces that this function cannot be
-     * defined in StreamTransformer, so then must be transformed by deriving
-     * classes. 
+    /* Function used to send stream data through this transformer
+     * and back into the output stream.
      */
-    virtual void transform()=0;
+    virtual void exec(std::istream *is, std::ostream *os);
 
     TransformDigest getDigest();
 
-    template<typename... Args>
+    /*template<typename... Args>
     friend void connect(std::istream &is, std::ostream &os, StreamTransformer* st,
                         Args... sts) {
         std::stringstream ss;
@@ -126,7 +126,7 @@ class StreamTransformer {
 
     friend void connect(std::istream &is, std::ostream &os, StreamTransformer* st) {
         st->pipe(is, os);
-    }
+    }*/
 
 };
 
