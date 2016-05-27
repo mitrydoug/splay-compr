@@ -23,8 +23,8 @@ typedef ParallelTransformer PP;
  */
 int main() {
 
-    ifstream imgIn("hilbert.ppm", ios::binary);
-    ofstream imgOut("hilbert_rbg_spc_mtf.ppm", ios::binary);
+    ifstream imgIn("ryan.ppm", ios::binary);
+    ofstream imgOut("ryan_encoded.dat", ios::binary);
     RGBSplitEncoder rgbe(ENCODE);
     SpaceFillingCurveEncoder sfce(ENCODE);
     MoveToFrontEncoder mtfe(ENCODE);
@@ -36,6 +36,20 @@ int main() {
 
     imgIn.close();
     imgOut.close();
+
+    ifstream imgIn2("ryan_encoded.dat", ios::binary);
+    ofstream imgOut2("ryan_decoded.ppm", ios::binary);
+    RGBSplitEncoder rgbd(DECODE);
+    SpaceFillingCurveEncoder sfcd(DECODE);
+    MoveToFrontEncoder mtfd(DECODE);
+    PPMDelegateEncoder ppmmtfd(DECODE, &mtfd);
+    try {
+        SS(&ppmmtfd, &sfcd, &rgbd).exec(&imgIn2, &imgOut2);
+    } catch (const char *c) {
+        cout << endl << c << endl; }
+
+    imgIn2.close();
+    imgOut2.close();
 
     /*VerbatimBitTransformer vbt;
     PrefixTransformer pt("Warning: ");

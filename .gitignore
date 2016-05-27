@@ -39,5 +39,8 @@ run-tests
 !building.ppm
 !hilbert.ppm
 
+# compressed data
+*.dat
+
 # swap files
 *.swp

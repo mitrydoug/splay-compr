@@ -39,6 +39,7 @@ class MoveToFrontEncoder : public StreamEncoder {
     void freeList(Node *front);
 
     size_t getIndex(Node *&front, byte b);
+    byte getVal(Node *&front, size_t index);
 
 };
 
