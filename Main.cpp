@@ -24,12 +24,12 @@ typedef ParallelTransformer PP;
  */
 int main() {
 
-    ifstream imgIn("hilbert.ppm", ios::binary);
-    ofstream imgOut("hilbert_rbg_spc_mtf.ppm", ios::binary);
+    ifstream imgIn("ryan.ppm", ios::binary);
+    ofstream imgOut("ryan_splay_compr.ppm", ios::binary);
     RGBSplitEncoder rgbe(ENCODE);
     SpaceFillingCurveEncoder sfce(ENCODE);
     SplayPrefixEncoder splayEnc(ENCODE);
-    PPMDelegateEncoder ppmmtfe(ENCODE, &mtfe);
+    PPMDelegateEncoder ppmmtfe(ENCODE, &splayEnc);
     try {
         SS(&rgbe, &sfce, &ppmmtfe).exec(&imgIn, &imgOut);
     } catch (const char *c) {
