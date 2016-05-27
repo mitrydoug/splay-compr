@@ -33,3 +33,6 @@ run-tests
 # Images
 *.ppm
 *.jpg
+
+# swap files
+*.swp
