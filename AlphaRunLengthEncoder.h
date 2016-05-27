@@ -1,4 +1,3 @@
-
 #ifndef AlphaRunLengthEncoder_Included
 #define AlphaRunLengthEncoder_Included
 

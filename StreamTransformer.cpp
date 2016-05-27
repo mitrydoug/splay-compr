@@ -91,13 +91,13 @@ void StreamTransformer::flushByte() {
     writeByte(writeByteBuf);
 }
 
-void StreamTransformer::pipe(istream &is, ostream &os) {
+void StreamTransformer::exec(istream *is, ostream *os) {
    
     /* Construct a new digest, copy is over */
     digest = TransformDigest();
 
-    input = &is;
-    output = &os;
+    input = is;
+    output = os;
     transform();
     input = nullptr;
     output = nullptr;
