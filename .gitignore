@@ -34,5 +34,10 @@ run-tests
 *.ppm
 *.jpg
 
+#include some images
+!ryan.ppm
+!building.ppm
+!hilbert.ppm
+
 # swap files
 *.swp
