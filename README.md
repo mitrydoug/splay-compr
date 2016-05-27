@@ -10,7 +10,7 @@ The Makefile in our project is modelled after those used in our pset CS166 proje
 Then you just need to do into the Makefile and add **PigLatinEncoder.o** to the OBJECTS variable so that it gets built into the rest of the project.
 
 ### StreamTransformers
-This is an abstraction that allows a class to accept and input stream and an output stream, and then pass the stream data along while at the same time performing some transformation/processing on the data. The important parts of this interface that you'll use are the following functions of the **StreamTransformer** class
+This is an abstraction that allows a class to accept an input stream and an output stream, and then pass the stream data along while at the same time performing some transformation/processing on the data. The important parts of this interface that you'll use are the following functions of the **StreamTransformer** class
 
 - **readByte/readBit**: reads a byte/bit from the input stream.
 - **writeByte/writeBit**: writes to the output stream.
