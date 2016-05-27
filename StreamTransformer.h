@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <sstream>
-#include <initializer_list>
 
 /* A typedef for representing an abstract 8-bit alphabet character. */
 typedef unsigned char byte;

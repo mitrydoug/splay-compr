@@ -3,14 +3,14 @@
 
 #include <vector>
 
-#include "ImageDataEncoder.h"
+#include "PPMImageEncoder.h"
 
-class RGBSplitEncoder : public ImageDataEncoder {
+class RGBSplitEncoder : public PPMImageEncoder {
 
   public:
 
     RGBSplitEncoder(EncoderMode mode)
-      : ImageDataEncoder(mode) {}
+      : PPMImageEncoder(mode) {}
 
   protected:
 

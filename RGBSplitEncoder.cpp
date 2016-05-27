@@ -5,6 +5,10 @@
 using namespace std;
 
 void RGBSplitEncoder::encode() {
+
+    /* Read the PPM header */
+    readHeader();
+
     byte b;
     size_t count=0;
     for ( ; readByte(b); count++) {
@@ -38,6 +42,10 @@ void RGBSplitEncoder::readChannel(vector<byte> &chn) {
 }
 
 void RGBSplitEncoder::decode() {
+
+    /* Read the PPM header */
+    readHeader();
+
     readChannel(redChn);
     cout << "red" << endl;
     readChannel(greenChn);

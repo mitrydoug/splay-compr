@@ -49,7 +49,6 @@ class StreamEncoder : public StreamTransformer {
      */
     virtual void decode()=0;
 
-  private:
     /* The mode of encoder */
     const EncoderMode encodeOrDecode;
 };

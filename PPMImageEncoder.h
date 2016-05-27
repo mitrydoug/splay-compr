@@ -4,33 +4,29 @@
 #include <string>
 
 #include "StreamEncoder.h"
-#include "ImageDataEncoder.h"
 
 class PPMImageEncoder : public StreamEncoder {
   
   public:
 
-      PPMImageEncoder(EncoderMode mode, ImageDataEncoder *de)
-        : StreamEncoder(mode), dataEncoder(de),
+      PPMImageEncoder(EncoderMode mode)
+        : StreamEncoder(mode),
           imageWidth(0),
           imageHeight(0),
-          imageMaxLum(0) {}
+          imageMaxLum(0),
+          bytesPerVal(0) {}
 
   protected:
-
-      void encode();
-
-      void decode();
-
-  private:
-
-      ImageDataEncoder *dataEncoder;
 
       size_t imageWidth;
       size_t imageHeight;
       size_t imageMaxLum;
+      size_t bytesPerVal;
 
       void readHeader();
+
+  private:
+
       size_t readHeaderInt();
 
       static const string magic;

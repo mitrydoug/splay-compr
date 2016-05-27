@@ -45,23 +45,16 @@ void PPMImageEncoder::readHeader() {
     if (magic != readmagic) {
         throw "The PPM magic number is not correct";
     }
-    writeByte('P');
+    writeByte('P'); /* P6: The magic prefix in PPM headers */
     writeByte('6');
 
     imageWidth = readHeaderInt();
     imageHeight = readHeaderInt();
     imageMaxLum = readHeaderInt();
-}
 
-void PPMImageEncoder::encode() {
-    readHeader();
-    dataEncoder->setDimensions(imageWidth, imageHeight);
-    dataEncoder->exec(input, output);
-}
-
-void PPMImageEncoder::decode() {
-    readHeader();
-    dataEncoder->setDimensions(imageWidth, imageHeight);
-    cout << imageWidth << ", " << imageHeight << endl;
-    dataEncoder->exec(input, output);
+    size_t temp = imageMaxLum;
+    while(temp > 0) {
+        bytesPerVal++;
+        temp <<= 8;
+    }
 }

@@ -9,11 +9,11 @@ class SeriesTransformer : public StreamTransformer {
 
   private:
 
+      std::vector<StreamTransformer*> transformers;
+
       void fillTrans(StreamTransformer *st) {
           transformers.push_back(st);
       }
-
-      std::vector<StreamTransformer*> transformers;
 
       template<typename... Args>
       void fillTrans(StreamTransformer *st, Args... sts) {
