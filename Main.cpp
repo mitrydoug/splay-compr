@@ -11,6 +11,7 @@
 #include "PPMImageEncoder.h"
 #include "RGBSplitEncoder.h"
 #include "SpaceFillingCurveEncoder.h"
+#include "SplayPrefixEncoder.h"
 
 using namespace std;
 
@@ -24,9 +25,11 @@ int main() {
     VerbatimBitTransformer vbt;
     PrefixTransformer pt("Warning: ");
     ReverseTransformer rt;
+    SplayPrefixEncoder splayEnc(ENCODE);
+    SplayPrefixEncoder splayDec(DECODE);
     stringstream is("The nuclear core is about to melt down!");
     stringstream os;
-    SS(&pt, &rt, &vbt).exec(&is, &os);
+    SS(&splayEnc, &splayDec).exec(&is, &os);
     cout << os.str() << endl;
 
     stringstream os2;

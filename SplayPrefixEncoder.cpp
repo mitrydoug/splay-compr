@@ -60,7 +60,7 @@ void SplayPrefixEncoder::splay(struct treeNode* leaf) {
     while(true) {
         struct treeNode* parent = leaf->parent;
         // If parent or current node (leaf) is the root, break
-        if(parent->parent == NULL || leaf->parent == NULL) break;
+        if(leaf->parent == NULL || parent->parent == NULL) break;
         struct treeNode* grandparent = parent->parent;
         struct treeNode* gpChild = grandparent->left;
         if(gpChild == parent) { // parent is left child of grandparent
@@ -95,6 +95,7 @@ void SplayPrefixEncoder::encode() {
     stack<bit> bitStack;
     
     while(readByte(by)) {
+        //cout << "Character: " << (char) by << endl;
         auto result = map.find(by);
         if(result == map.end()) {
             throw "Error in encode(): Could not find leaf node for " + by;
@@ -115,13 +116,16 @@ void SplayPrefixEncoder::encode() {
             cur = cur->parent;
         } 
         // Write the bits to the output
+        //cout << "Writing bits..." << endl;
         while(!bitStack.empty()) {
             writeBit(bitStack.top());
+            //cout << bitStack.top();
             bitStack.pop();
         }
+        //cout << endl;
         splay(leaf);
     }
-    
+    //flushByte();
     freeTree(root);
 }
 
@@ -139,6 +143,7 @@ void SplayPrefixEncoder::decode() {
     bit bi;
     struct treeNode *node = root;
     while(readBit(bi)) {
+        //cout << bi;
         if(bi == 0) {
             node = node->left;
         } else {
@@ -147,11 +152,11 @@ void SplayPrefixEncoder::decode() {
         // Reached a leaf
         if(node->left == NULL && node->right == NULL) {
             byte by = node->ch;
+            //cout << "Char: " << (char)by << endl;
             writeByte(by);
             splay(node);
             node = root;
         }
     }
-
     freeTree(root);
 }
