@@ -10,6 +10,9 @@ typedef unsigned char byte;
 /* A typedef for representing single bits */
 typedef bool bit;
 
+#define BIT_0 false
+#define BIT_1 true
+
 typedef struct TransformDigest {
     TransformDigest()
       : bytesIn(0), bytesOut(0) {}
@@ -81,7 +84,7 @@ class StreamTransformer {
     /* Flushes 0 bits as the remainder of the byte being written via calls to
      * writeBit()
      */
-    void flushByte();
+    void flushByte(bit bt=BIT_0);
 
     /* Bytes will be read from the input stream, eventually to be deposited to
      * the output stream after transformation

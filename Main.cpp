@@ -9,9 +9,11 @@
 #include "ReverseTransformer.h"
 #include "AlphaRunLengthEncoder.h"
 #include "PPMImageEncoder.h"
+#include "PPMDelegateEncoder.h"
 #include "RGBSplitEncoder.h"
 #include "SpaceFillingCurveEncoder.h"
 #include "SplayPrefixEncoder.h"
+#include "MoveToFrontEncoder.h"
 
 using namespace std;
 
@@ -22,7 +24,21 @@ typedef ParallelTransformer PP;
  */
 int main() {
 
-    VerbatimBitTransformer vbt;
+    ifstream imgIn("hilbert.ppm", ios::binary);
+    ofstream imgOut("hilbert_rbg_spc_mtf.ppm", ios::binary);
+    RGBSplitEncoder rgbe(ENCODE);
+    SpaceFillingCurveEncoder sfce(ENCODE);
+    SplayPrefixEncoder splayEnc(ENCODE);
+    PPMDelegateEncoder ppmmtfe(ENCODE, &mtfe);
+    try {
+        SS(&rgbe, &sfce, &ppmmtfe).exec(&imgIn, &imgOut);
+    } catch (const char *c) {
+        cout << endl << c << endl; }
+
+    imgIn.close();
+    imgOut.close();
+
+    /*VerbatimBitTransformer vbt;
     PrefixTransformer pt("Warning: ");
     ReverseTransformer rt;
     SplayPrefixEncoder splayEnc(ENCODE);
@@ -61,7 +77,7 @@ int main() {
     ppm.close();
     ppm_cpy.close();
 
-    /*ifstream cpy_ppm("cpy_ryan.ppm", ios::binary);
+    ifstream cpy_ppm("cpy_ryan.ppm", ios::binary);
     ofstream ppm_cpy_cpy("cpy_cpy_ryan.ppm", ios::binary);
     RGBSplitEncoder rgb(DECODE);
     SpaceFillingCurveEncoder sfc1(ENCODE);

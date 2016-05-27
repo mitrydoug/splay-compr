@@ -85,10 +85,10 @@ void StreamTransformer::writeBit(bit bi) {
     }
 }
 
-void StreamTransformer::flushByte() {
-    writeByteBuf <<= (8-writeBits);
-    writeBits = 0; 
-    writeByte(writeByteBuf);
+void StreamTransformer::flushByte(bit bt) {
+    while (writeBits != 0) {
+        writeBit(bt);
+    }
 }
 
 void StreamTransformer::exec(istream *is, ostream *os) {
