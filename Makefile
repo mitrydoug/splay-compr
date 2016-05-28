@@ -1,7 +1,7 @@
 CXXFLAGS =-std=c++11 -Wall -Werror -O0 -g
 CXX = g++
 
-OBJECTS = Main.o StreamTransformer.o VerbatimTransformer.o PrefixTransformer.o VerbatimBitTransformer.o ReverseTransformer.o StreamEncoder.o AlphaRunLengthEncoder.o SeriesTransformer.o ParallelTransformer.o PPMImageEncoder.o RGBSplitEncoder.o SpaceFillingCurveEncoder.o MoveToFrontEncoder.o PPMDelegateEncoder.o
+OBJECTS = SplayPrefixEncoder.o Main.o StreamTransformer.o VerbatimTransformer.o PrefixTransformer.o VerbatimBitTransformer.o ReverseTransformer.o StreamEncoder.o AlphaRunLengthEncoder.o SeriesTransformer.o ParallelTransformer.o PPMImageEncoder.o RGBSplitEncoder.o SpaceFillingCurveEncoder.o MoveToFrontEncoder.o PPMDelegateEncoder.o
 
 default: run-tests
 
