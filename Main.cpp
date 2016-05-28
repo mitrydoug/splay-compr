@@ -28,12 +28,12 @@ int main() {
     ofstream imgOut("ryan_encoded.dat", ios::binary);
     RGBSplitEncoder rgbe(ENCODE);
     SpaceFillingCurveEncoder sfce(ENCODE);
-    MoveToFrontEncoder mtfe(ENCODE);
-    PPMDelegateEncoder ppmmtfe(ENCODE, &mtfe);
-    try {
-        SS(&rgbe, &sfce, &ppmmtfe).exec(&imgIn, &imgOut);
-    } catch (const char *c) {
-        cout << endl << c << endl; }
+    SplayPrefixEncoder sple(ENCODE);
+    PPMDelegateEncoder ppme(ENCODE, &sple);
+  //  try {
+        SS(&rgbe, &sfce, &ppme).exec(&imgIn, &imgOut);
+  //  } catch (const char *c) {
+  //      cout << endl << c << endl; }
 
     imgIn.close();
     imgOut.close();
@@ -42,12 +42,12 @@ int main() {
     ofstream imgOut2("ryan_decoded.ppm", ios::binary);
     RGBSplitEncoder rgbd(DECODE);
     SpaceFillingCurveEncoder sfcd(DECODE);
-    MoveToFrontEncoder mtfd(DECODE);
-    PPMDelegateEncoder ppmmtfd(DECODE, &mtfd);
-    try {
-        SS(&ppmmtfd, &sfcd, &rgbd).exec(&imgIn2, &imgOut2);
-    } catch (const char *c) {
-        cout << endl << c << endl; }
+    SplayPrefixEncoder spld(DECODE);
+    PPMDelegateEncoder ppmd(DECODE, &spld);
+  //  try {
+        SS(&ppmd, &sfcd, &rgbd).exec(&imgIn2, &imgOut2);
+  //  } catch (const char *c) {
+  //      cout << endl << c << endl; }
 
     imgIn2.close();
     imgOut2.close();
