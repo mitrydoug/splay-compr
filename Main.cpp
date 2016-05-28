@@ -24,7 +24,7 @@ typedef ParallelTransformer PP;
  */
 int main() {
 
-    ifstream imgIn("ryan.ppm", ios::binary);
+    /*ifstream imgIn("ryan.ppm", ios::binary);
     ofstream imgOut("ryan_encoded.dat", ios::binary);
     RGBSplitEncoder rgbe(ENCODE);
     SpaceFillingCurveEncoder sfce(ENCODE);
@@ -50,9 +50,11 @@ int main() {
   //      cout << endl << c << endl; }
 
     imgIn2.close();
-    imgOut2.close();
+    imgOut2.close();*/
 
-    /*VerbatimBitTransformer vbt;
+
+
+    VerbatimBitTransformer vbt;
     PrefixTransformer pt("Warning: ");
     ReverseTransformer rt;
     SplayPrefixEncoder splayEnc(ENCODE);
@@ -62,7 +64,7 @@ int main() {
     SS(&splayEnc, &splayDec).exec(&is, &os);
     cout << os.str() << endl;
 
-    stringstream os2;
+    /*stringstream os2;
     stringstream is2("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabb");
     AlphaRunLengthEncoder arle(ENCODE);
     SS(&arle).exec(&is2, &os2);
