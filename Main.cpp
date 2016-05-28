@@ -1,6 +1,8 @@
+#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
 #include "SeriesTransformer.h"
 #include "ParallelTransformer.h"
 #include "VerbatimTransformer.h"
@@ -20,12 +22,90 @@ using namespace std;
 typedef SeriesTransformer SS;
 typedef ParallelTransformer PP;
 
+static const vector<string> txtFiles({
+    "google_home.txt"
+});
+
+static const vector<string> images({
+    "ryan.ppm",
+    "hilbert.ppm",
+    "building.ppm",
+    "forest.ppm"
+});
+
+bool compareStreams(istream &is1, istream &is2) {
+    bool cont = true;
+    int in1;
+    int in2;
+    while (cont) {
+        in1 = is1.get();
+        in2 = is2.get();
+        if (in1 != in2) return false;
+        if (in1 == -1) cont = false;
+    }
+    return true;
+}
+
+template<class DataEncoder>
+void testCompressor(string encoderName) {
+
+    RGBSplitEncoder rgbe(ENCODE);
+    RGBSplitEncoder rgbd(DECODE);
+    SpaceFillingCurveEncoder sfce(ENCODE);
+    SpaceFillingCurveEncoder sfcd(DECODE);
+    DataEncoder de(ENCODE);
+    DataEncoder dd(DECODE);
+    PPMDelegateEncoder ppme(ENCODE, &de);
+    PPMDelegateEncoder ppmd(DECODE, &de);
+
+
+    printf("%s\n--------------------------------------------------------------"
+           "------------------", encoderName.c_str());
+
+    for (string file : txtFiles) {//size_t file_num=0; file_num<NUM_FILES; file_num++) {
+        cout << endl << "Testing file: " << file << endl;
+        ifstream cmp(file.c_str());
+        ifstream is(file.c_str());
+        stringstream ss;
+        try {
+            SS(&de, &dd).exec(&is, &ss);
+            TransformDigest edg = de.getDigest();
+            TransformDigest ddg = dd.getDigest();
+            bool succ = edg.bytesIn == ddg.bytesOut &&
+                        compareStreams(cmp, ss);
+            cout << edg << "Successful Decode: " << (succ ? "Yes!" : "No :(") << endl;
+        } catch (const char *e) {
+            cout << "An Exception Occurred: " << e << endl;
+        }
+    }
+
+    for (string file : images) {
+        cout << endl << "Testing image: " << file << endl;
+        ifstream cmp(file.c_str());
+        ifstream is(file.c_str());
+        stringstream ss;
+        try {
+            SS(&rgbe, &sfce, &de, &dd, &sfcd, &rgbd).exec(&is, &ss);
+            TransformDigest edg = de.getDigest();
+            TransformDigest ddg = dd.getDigest();
+            bool succ = edg.bytesIn == ddg.bytesOut &&
+                        compareStreams(cmp, ss);
+            cout << edg << "Successful Decode: " << (succ ? "Yes!" : "No :(") << endl;
+        } catch (const char *e) {
+            cout << "An Exception Occurred: " << e << endl;
+        }
+    }
+}
+
 /* The Main function of this test suite
  */
 int main() {
 
-    ifstream imgIn("ryan.ppm", ios::binary);
-    ofstream imgOut("ryan_encoded.dat", ios::binary);
+    testCompressor<SplayFrefixEncoder>("SplayPrefixEncoder");
+    exit(0);
+
+    ifstream imgIn("building.ppm", ios::binary);
+    ofstream imgOut("building_encoded.dat", ios::binary);
     RGBSplitEncoder rgbe(ENCODE);
     SpaceFillingCurveEncoder sfce(ENCODE);
     SplayPrefixEncoder sple(ENCODE);

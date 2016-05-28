@@ -126,7 +126,11 @@ void MoveToFrontEncoder::decode() {
         for (size_t c=0; c<2; c++) {
             more = readBit(bt);
             if (!more) {
-                throw "Ran out of bits";
+                if (((bitBuffer + 1) >> c) % 2 != 1) {
+                    throw "Ran out of bits";
+                } else {
+                    return;
+                }
             }
             bitBuffer += bt ? 1 << c : 0;
         }
@@ -139,7 +143,11 @@ void MoveToFrontEncoder::decode() {
         for (size_t c=0; c<4; c++) {
             more = readBit(bt);
             if (!more) {
-                throw "Ran out of bits";
+                if (((bitBuffer + 1) >> c) % 2 != 1) {
+                    throw "Ran out of bits";
+                } else {
+                    return;
+                }
             }
             bitBuffer += bt ? 1 << c : 0;
         }
@@ -152,7 +160,11 @@ void MoveToFrontEncoder::decode() {
         for (size_t c=0; c < 8; c++) {
             more = readBit(bt);
             if (!more) {
-                throw "Ran out of bits";
+                if (((bitBuffer + 1) >> c) % 2 != 1) {
+                    throw "Ran out of bits";
+                } else {
+                    return;
+                }
             }
             bitBuffer += bt ? 1 << c : 0;
         }
