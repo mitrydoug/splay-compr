@@ -31,8 +31,10 @@ class SplayPrefixEncoder : public StreamEncoder {
 
     void decode();
 
+void traverseTree(unsigned short by, unordered_map<unsigned short, struct treeNode*> map);
     void splay(struct treeNode* leaf);
-    struct treeNode* buildInitialTree(int level, byte& by, struct treeNode* parent, unordered_map<byte, struct treeNode*>& map);
+    struct treeNode* buildInitialTree(unordered_map<unsigned short, struct treeNode*>& map);
+    struct treeNode* buildTreeHelper(int level, byte& by, struct treeNode* parent, unordered_map<unsigned short, struct treeNode*>& map);
     void freeTree(struct treeNode* tree);
 };
 

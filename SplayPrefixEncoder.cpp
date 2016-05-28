@@ -7,12 +7,13 @@
 #include <stack>
 
 #define MAX_LEVEL 8 // 2^8 possible byte values so 2^8 leaves
+#define PSEUDO_EOF 256
 
 struct treeNode {
     struct treeNode *left;
     struct treeNode *right;
     struct treeNode *parent;
-    byte ch;
+    unsigned short ch; // Needs to be a short to handle PSEUDO_EOF
 };
 
 /**
@@ -35,15 +36,42 @@ void SplayPrefixEncoder::freeTree(struct treeNode *tree) {
  * is passed by reference, by one. A map is populated that maps each byte value
  * to the corresponding leaf node in the tree.
  */
-struct treeNode* SplayPrefixEncoder::buildInitialTree(int level, byte &by, struct treeNode* parent, unordered_map<byte, struct treeNode*>& map) {
+struct treeNode* SplayPrefixEncoder::buildInitialTree(unordered_map<unsigned short, struct treeNode*>& map) {
+    byte by = 0;
+    struct treeNode *root = buildTreeHelper(0, by, NULL, map); 
+
+    // Modify the tree to put PSEUDO_EOF in it
+    struct treeNode *oldLeaf = map.find(0)->second;
+    struct treeNode *newLeaf1 = (struct treeNode *)malloc(sizeof(struct treeNode));
+    newLeaf1->parent = oldLeaf;
+    newLeaf1->left = NULL;
+    newLeaf1->right = NULL;
+    newLeaf1->ch = oldLeaf->ch;
+    struct treeNode *newLeaf2 = (struct treeNode *)malloc(sizeof(struct treeNode));
+    newLeaf2->parent = oldLeaf;
+    newLeaf2->left = NULL;
+    newLeaf2->right = NULL;
+    newLeaf2->ch = PSEUDO_EOF;
+
+    oldLeaf->left = newLeaf1;
+    oldLeaf->right = newLeaf2; 
+
+    map.find(0)->second = newLeaf1;
+    pair<unsigned short, struct treeNode*> toInsert(PSEUDO_EOF, newLeaf2);
+    map.insert(toInsert);
+
+    return root;
+}
+
+struct treeNode* SplayPrefixEncoder::buildTreeHelper(int level, byte &by, struct treeNode* parent, unordered_map<unsigned short, struct treeNode*>& map) {
     if(level > MAX_LEVEL) return NULL;
     struct treeNode *newRoot = (struct treeNode*)malloc(sizeof(struct treeNode));
     newRoot->parent = parent;
-    newRoot->left = buildInitialTree(level + 1, by, newRoot, map);
-    newRoot->right = buildInitialTree(level + 1, by, newRoot, map);
+    newRoot->left = buildTreeHelper(level + 1, by, newRoot, map);
+    newRoot->right = buildTreeHelper(level + 1, by, newRoot, map);
     if(level == MAX_LEVEL) {
-        newRoot->ch = by;
-        pair<byte, struct treeNode*> toInsert(by, newRoot);
+        newRoot->ch = (unsigned short)by;
+        pair<unsigned short, struct treeNode*> toInsert(newRoot->ch, newRoot);
         map.insert(toInsert);
         by++;
     }
@@ -82,6 +110,44 @@ void SplayPrefixEncoder::splay(struct treeNode* leaf) {
 }
 
 /**
+ * This function writes the encoding of the given byte to the output stream
+ * and then splays the tree. It does so by starting at the leaf node for that
+ * character and then traversing up the tree to find the bit sequence to write.
+ */
+void SplayPrefixEncoder::traverseTree(unsigned short by, unordered_map<unsigned short, struct treeNode*> map) {
+    stack<bit> bitStack;
+    //cout << "Character: " << (char) by << endl;
+    auto result = map.find(by);
+    if(result == map.end()) {
+        throw "Error in encode(): Could not find leaf node for " + by;
+    }
+    struct treeNode* leaf = result->second;
+    struct treeNode* cur = leaf->parent;
+    struct treeNode* prev = leaf;
+    // Walk up tree pushing bits
+    while(cur != NULL) { // != NULL since root->parent is NULL
+        if(cur->right == prev) {
+            // Right child so push a 1
+            bitStack.push(1);
+        } else {
+            // Left child so push a 0
+            bitStack.push(0);
+        }
+        prev = cur;
+        cur = cur->parent;
+    } 
+    // Write the bits to the output
+    //cout << "Writing bits..." << endl;
+    while(!bitStack.empty()) {
+        writeBit(bitStack.top());
+        //cout << bitStack.top();
+        bitStack.pop();
+    }
+    //cout << endl;
+    splay(leaf);
+}
+
+/**
  * This function reads from the input and compresses the data. First, a 
  * perfectly balanced tree is created. Then, each byte read from the input.
  * Each byte corresponds to a leaf node in the tree. The path to this leaf
@@ -89,43 +155,17 @@ void SplayPrefixEncoder::splay(struct treeNode* leaf) {
  * is splayed.
  */
 void SplayPrefixEncoder::encode() {
-    unordered_map<byte, struct treeNode*> map;
+    unordered_map<unsigned short, struct treeNode*> map;
     byte by = 0;
-    struct treeNode *root = buildInitialTree(0, by, NULL, map); 
-    stack<bit> bitStack;
+    struct treeNode *root = buildInitialTree(map); 
     
     while(readByte(by)) {
-        //cout << "Character: " << (char) by << endl;
-        auto result = map.find(by);
-        if(result == map.end()) {
-            throw "Error in encode(): Could not find leaf node for " + by;
-        }
-        struct treeNode* leaf = result->second;
-        struct treeNode* cur = leaf->parent;
-        struct treeNode* prev = leaf;
-        // Walk up tree pushing bits
-        while(cur != NULL) { // != NULL since root->parent is NULL
-            if(cur->right == prev) {
-                // Right child so push a 1
-                bitStack.push(1);
-            } else {
-                // Left child so push a 0
-                bitStack.push(0);
-            }
-            prev = cur;
-            cur = cur->parent;
-        } 
-        // Write the bits to the output
-        //cout << "Writing bits..." << endl;
-        while(!bitStack.empty()) {
-            writeBit(bitStack.top());
-            //cout << bitStack.top();
-            bitStack.pop();
-        }
-        //cout << endl;
-        splay(leaf);
+        traverseTree((unsigned short)by, map);
     }
-    //flushByte();
+
+    // Write PSEUDO_EOF
+    traverseTree(PSEUDO_EOF, map);
+    flushByte();
     freeTree(root);
 }
 
@@ -136,9 +176,8 @@ void SplayPrefixEncoder::encode() {
  * output. Then, the tree is splayed from that node.
  */
 void SplayPrefixEncoder::decode() { 
-    unordered_map<byte, struct treeNode*> map;
-    byte by = 0;
-    struct treeNode *root = buildInitialTree(0, by, NULL, map); 
+    unordered_map<unsigned short, struct treeNode*> map;
+    struct treeNode *root = buildInitialTree(map); 
 
     bit bi;
     struct treeNode *node = root;
@@ -151,6 +190,7 @@ void SplayPrefixEncoder::decode() {
         }
         // Reached a leaf
         if(node->left == NULL && node->right == NULL) {
+            if(node->ch == PSEUDO_EOF) break;
             byte by = node->ch;
             //cout << "Char: " << (char)by << endl;
             writeByte(by);
