@@ -85,7 +85,7 @@ void testCompressor(string encoderName) {
         ifstream is(file.c_str());
         stringstream ss;
         try {
-            SS(&rgbe, &sfce, &de, &dd, &sfcd, &rgbd).exec(&is, &ss);
+            SS(&rgbe, &sfce, &ppme, &ppmd, &sfcd, &rgbd).exec(&is, &ss);
             TransformDigest edg = de.getDigest();
             TransformDigest ddg = dd.getDigest();
             bool succ = edg.bytesIn == ddg.bytesOut &&
@@ -101,7 +101,7 @@ void testCompressor(string encoderName) {
  */
 int main() {
 
-    testCompressor<SplayFrefixEncoder>("SplayPrefixEncoder");
+    testCompressor<SplayPrefixEncoder>("SplayPrefixEncoder");
     exit(0);
 
     ifstream imgIn("building.ppm", ios::binary);
@@ -130,7 +130,7 @@ int main() {
   //      cout << endl << c << endl; }
 
     imgIn2.close();
-    imgOut2.close();*/
+    imgOut2.close();
 
 
 
