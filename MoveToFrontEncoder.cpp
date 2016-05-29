@@ -116,7 +116,9 @@ void MoveToFrontEncoder::decode() {
     size_t bitBuffer=0; 
     bit bt;
     bool more;
+    bool oes=false;
     while (readBit(bt)) {
+        if (oes) { cout << "bit" << endl; }
         bitBuffer = bt ? 1 : 0;
         if (bitBuffer != USE_2_BITS) {
            writeByte(getVal(front, 0));
@@ -132,7 +134,7 @@ void MoveToFrontEncoder::decode() {
                     return;
                 }
             }
-            bitBuffer += bt ? 1 << c : 0;
+            bitBuffer += bt ? (1 << c) : 0;
         }
         if (bitBuffer != USE_4_BITS) {
             writeByte(getVal(
@@ -149,7 +151,7 @@ void MoveToFrontEncoder::decode() {
                     return;
                 }
             }
-            bitBuffer += bt ? 1 << c : 0;
+            bitBuffer += bt ? (1 << c) : 0;
         }
         if (bitBuffer != USE_8_BITS) {
             writeByte(getVal(
@@ -168,8 +170,12 @@ void MoveToFrontEncoder::decode() {
             }
             bitBuffer += bt ? 1 << c : 0;
         }
-        writeByte(getVal(
-            front, (EIGHT_BITS & bitBuffer) + EIGHT_BIT_OFFSET));
+        if ((bitBuffer & EIGHT_BITS) == EIGHT_BITS) {
+            oes = true;
+        } else {
+            writeByte(getVal(
+                front, (EIGHT_BITS & bitBuffer) + EIGHT_BIT_OFFSET));
+        }
     }
 
     freeList(front);

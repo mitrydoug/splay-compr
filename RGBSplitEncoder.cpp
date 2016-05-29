@@ -20,7 +20,6 @@ void RGBSplitEncoder::encode() {
         }
     }
     if (count != 3 * imageWidth * imageHeight) {
-        cout << endl << count << endl;
         throw "Image dimensions did not match number of bytes read.";
     }
     for (byte by : greenChn) writeByte(by);
@@ -47,11 +46,8 @@ void RGBSplitEncoder::decode() {
     readHeader();
 
     readChannel(redChn);
-    cout << "red" << endl;
     readChannel(greenChn);
-    cout << "green" << endl;
     readChannel(blueChn);
-    cout << "blue" << endl;
     byte dummy;
     if (readByte(dummy)) {
         throw "More available bytes than expected.";

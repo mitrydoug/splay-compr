@@ -16,6 +16,8 @@
 #include "SpaceFillingCurveEncoder.h"
 #include "SplayPrefixEncoder.h"
 #include "MoveToFrontEncoder.h"
+#include "ExpRndImageCreator.h"
+#include "ShannonEntropyCalc.h"
 
 using namespace std;
 
@@ -27,11 +29,28 @@ static const vector<string> txtFiles({
 });
 
 static const vector<string> images({
+    "random.ppm",
+    "exp_random.ppm",
     "ryan.ppm",
-    "hilbert.ppm",
-    "building.ppm",
-    "forest.ppm"
+  /*"contrived.ppm",*/
+    "fern.ppm",
+    "city.ppm",
+    "dorm.ppm"
 });
+
+void calcShannonEntropy() {
+    for (string img : images) {
+        cout << "\n" << img << endl;
+        ifstream f(img.c_str(), ios::binary);
+        ostringstream os;
+        ShannonEntropyCalc ec(ENCODE);
+        try{
+            ec.exec(&f, &os);
+        } catch (const char *e) {
+            cout << e << endl;
+        }
+    }
+}
 
 bool compareStreams(istream &is1, istream &is2) {
     bool cont = true;
@@ -49,20 +68,14 @@ bool compareStreams(istream &is1, istream &is2) {
 template<class DataEncoder>
 void testCompressor(string encoderName) {
 
-    RGBSplitEncoder rgbe(ENCODE);
-    RGBSplitEncoder rgbd(DECODE);
-    SpaceFillingCurveEncoder sfce(ENCODE);
-    SpaceFillingCurveEncoder sfcd(DECODE);
-    DataEncoder de(ENCODE);
-    DataEncoder dd(DECODE);
-    PPMDelegateEncoder ppme(ENCODE, &de);
-    PPMDelegateEncoder ppmd(DECODE, &de);
 
 
     printf("%s\n--------------------------------------------------------------"
            "------------------", encoderName.c_str());
 
     for (string file : txtFiles) {//size_t file_num=0; file_num<NUM_FILES; file_num++) {
+        DataEncoder de(ENCODE);
+        DataEncoder dd(DECODE);
         cout << endl << "Testing file: " << file << endl;
         ifstream cmp(file.c_str());
         ifstream is(file.c_str());
@@ -80,6 +93,14 @@ void testCompressor(string encoderName) {
     }
 
     for (string file : images) {
+        RGBSplitEncoder rgbe(ENCODE);
+        RGBSplitEncoder rgbd(DECODE);
+        SpaceFillingCurveEncoder sfce(ENCODE);
+        SpaceFillingCurveEncoder sfcd(DECODE);
+        DataEncoder de(ENCODE);
+        DataEncoder dd(DECODE);
+        PPMDelegateEncoder ppme(ENCODE, &de);
+        PPMDelegateEncoder ppmd(DECODE, &dd);
         cout << endl << "Testing image: " << file << endl;
         ifstream cmp(file.c_str());
         ifstream is(file.c_str());
@@ -101,6 +122,15 @@ void testCompressor(string encoderName) {
  */
 int main() {
 
+    calcShannonEntropy();
+    exit(0);
+
+    stringstream ss;
+    ofstream rndF("exp_random.ppm", ios::binary);
+    ExpRndImageCreator rnd;
+    rnd.exec(&ss, &rndF);
+    exit(0);
+
     testCompressor<SplayPrefixEncoder>("SplayPrefixEncoder");
     exit(0);
 
@@ -108,8 +138,8 @@ int main() {
     ofstream imgOut("building_encoded.dat", ios::binary);
     RGBSplitEncoder rgbe(ENCODE);
     SpaceFillingCurveEncoder sfce(ENCODE);
-    SplayPrefixEncoder sple(ENCODE);
-    PPMDelegateEncoder ppme(ENCODE, &sple);
+    MoveToFrontEncoder mtfe(ENCODE);
+    PPMDelegateEncoder ppme(ENCODE, &mtfe);
   //  try {
         SS(&rgbe, &sfce, &ppme).exec(&imgIn, &imgOut);
   //  } catch (const char *c) {
@@ -118,12 +148,12 @@ int main() {
     imgIn.close();
     imgOut.close();
 
-    ifstream imgIn2("ryan_encoded.dat", ios::binary);
-    ofstream imgOut2("ryan_decoded.ppm", ios::binary);
+    ifstream imgIn2("building_encoded.dat", ios::binary);
+    ofstream imgOut2("building_decoded.ppm", ios::binary);
     RGBSplitEncoder rgbd(DECODE);
     SpaceFillingCurveEncoder sfcd(DECODE);
-    SplayPrefixEncoder spld(DECODE);
-    PPMDelegateEncoder ppmd(DECODE, &spld);
+    MoveToFrontEncoder mtfd(DECODE);
+    PPMDelegateEncoder ppmd(DECODE, &mtfd);
   //  try {
         SS(&ppmd, &sfcd, &rgbd).exec(&imgIn2, &imgOut2);
   //  } catch (const char *c) {
@@ -131,6 +161,8 @@ int main() {
 
     imgIn2.close();
     imgOut2.close();
+
+    exit(0);
 
 
 

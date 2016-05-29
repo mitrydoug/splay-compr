@@ -128,7 +128,6 @@ void SpaceFillingCurveEncoder::encode() {
 void SpaceFillingCurveEncoder::decode() {
 
     readHeader();
-    cout << imageWidth << ", " << imageHeight << endl;
 
     for (size_t i=0; /* RGB */ i<3; i++) {
         vector<vector<byte>> grid(imageHeight, vector<byte>(imageWidth));
