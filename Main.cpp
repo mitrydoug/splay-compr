@@ -16,6 +16,7 @@
 #include "SpaceFillingCurveEncoder.h"
 #include "SplayPrefixEncoder.h"
 #include "MoveToFrontEncoder.h"
+#include "HuffmanEncoder.h"
 
 using namespace std;
 
