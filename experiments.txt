@@ -1,0 +1,302 @@
+Experiment 1: Huff vs. Splay vs. MTF on text files
+
+HuffmanEncoder
+--------------------------------------------------------------------------------
+Testing file: google_home.txt
+Bytes Read: 195298
+Bytes Written: 138593
+Successful Decode: Yes!
+
+Testing file: hamlet.txt
+Bytes Read: 191734
+Bytes Written: 105419
+Successful Decode: Yes!
+
+Testing file: dictionary.txt
+Bytes Read: 2707013
+Bytes Written: 1444602
+Successful Decode: Yes!
+
+MoveToFrontEncoder
+--------------------------------------------------------------------------------
+Testing file: google_home.txt
+Bytes Read: 195298
+Bytes Written: 229379
+Successful Decode: Yes!
+
+Testing file: hamlet.txt
+Bytes Read: 191734
+Bytes Written: 180351
+Successful Decode: Yes!
+
+Testing file: dictionary.txt
+Bytes Read: 2707013
+Bytes Written: 2157736
+Successful Decode: Yes!
+
+SplayPrefixEncoder
+--------------------------------------------------------------------------------
+Testing file: google_home.txt
+Bytes Read: 195298
+Bytes Written: 150274
+Successful Decode: Yes!
+
+Testing file: hamlet.txt
+Bytes Read: 191734
+Bytes Written: 125866
+Successful Decode: Yes!
+
+Testing file: dictionary.txt
+Bytes Read: 2707013
+Bytes Written: 1529658
+Successful Decode: Yes!
+
+Experiment 2: Huff vs. Splay vs. MTF images w/ RGB but no SFC
+
+HuffmanEncoder
+--------------------------------------------------------------------------------
+Testing image: random.ppm
+Bytes Read: 750000
+Bytes Written: 750349
+Successful Decode: Yes!
+
+Testing image: exp_random.ppm
+Bytes Read: 750000
+Bytes Written: 186890
+Successful Decode: Yes!
+
+Testing image: ryan.ppm
+Bytes Read: 270000
+Bytes Written: 252988
+Successful Decode: Yes!
+
+Testing image: contrived.ppm
+Bytes Read: 750000
+Bytes Written: 750368
+Successful Decode: Yes!
+
+Testing image: fern.ppm
+Bytes Read: 5116800
+Bytes Written: 4779255
+Successful Decode: Yes!
+
+Testing image: city.ppm
+Bytes Read: 59885568
+Bytes Written: 56139371
+Successful Decode: Yes!
+
+Testing image: dorm.ppm
+Bytes Read: 527283
+Bytes Written: 499754
+Successful Decode: Yes!
+
+MoveToFrontEncoder
+--------------------------------------------------------------------------------
+Testing image: random.ppm
+Bytes Read: 750000
+Bytes Written: 1344052
+Successful Decode: Yes!
+
+Testing image: exp_random.ppm
+Bytes Read: 750000
+Bytes Written: 261280
+Successful Decode: Yes!
+
+Testing image: ryan.ppm
+Bytes Read: 270000
+Bytes Written: 264792
+Successful Decode: Yes!
+
+Testing image: contrived.ppm
+Bytes Read: 750000
+Bytes Written: 1360280
+Successful Decode: Yes!
+
+Testing image: fern.ppm
+Bytes Read: 5116800
+Bytes Written: 5573782
+Successful Decode: Yes!
+
+Testing image: city.ppm
+Bytes Read: 59885568
+Bytes Written: 51763298
+Successful Decode: Yes!
+
+Testing image: dorm.ppm
+Bytes Read: 527283
+Bytes Written: 479611
+Successful Decode: Yes!
+
+SplayPrefixEncoder
+--------------------------------------------------------------------------------
+Testing image: random.ppm
+Bytes Read: 750000
+Bytes Written: 906046
+Successful Decode: Yes!
+
+Testing image: exp_random.ppm
+Bytes Read: 750000
+Bytes Written: 215515
+Successful Decode: Yes!
+
+Testing image: ryan.ppm
+Bytes Read: 270000
+Bytes Written: 202055
+Successful Decode: Yes!
+
+Testing image: contrived.ppm
+Bytes Read: 750000
+Bytes Written: 906407
+Successful Decode: Yes!
+
+Testing image: fern.ppm
+Bytes Read: 5116800
+Bytes Written: 4266914
+Successful Decode: Yes!
+
+Testing image: city.ppm
+Bytes Read: 59885568
+Bytes Written: 38064709
+Successful Decode: Yes!
+
+Testing image: dorm.ppm
+Bytes Read: 527283
+Bytes Written: 371848
+Successful Decode: Yes!
+
+
+Experiment 3: Huff vs. Splay vs. MTF w/ RGB w/ SFC
+
+HuffmanEncoder
+--------------------------------------------------------------------------------
+Testing image: random.ppm
+Bytes Read: 750000
+Bytes Written: 750349
+Successful Decode: Yes!
+
+Testing image: exp_random.ppm
+Bytes Read: 750000
+Bytes Written: 186890
+Successful Decode: Yes!
+
+Testing image: ryan.ppm
+Bytes Read: 270000
+Bytes Written: 252988
+Successful Decode: Yes!
+
+Testing image: contrived.ppm
+Bytes Read: 750000
+Bytes Written: 750368
+Successful Decode: Yes!
+
+Testing image: fern.ppm
+Bytes Read: 5116800
+Bytes Written: 4779255
+Successful Decode: Yes!
+
+Testing image: city.ppm
+Bytes Read: 59885568
+Bytes Written: 56139371
+Successful Decode: Yes!
+
+Testing image: dorm.ppm
+Bytes Read: 527283
+Bytes Written: 499754
+Successful Decode: Yes!
+
+MoveToFrontEncoder
+--------------------------------------------------------------------------------
+Testing image: random.ppm
+Bytes Read: 750000
+Bytes Written: 1344275
+Successful Decode: Yes!
+
+Testing image: exp_random.ppm
+Bytes Read: 750000
+Bytes Written: 261954
+Successful Decode: Yes!
+
+Testing image: ryan.ppm
+Bytes Read: 270000
+Bytes Written: 187520
+Successful Decode: Yes!
+
+Testing image: contrived.ppm
+Bytes Read: 750000
+Bytes Written: 1380349
+Successful Decode: Yes!
+
+Testing image: fern.ppm
+Bytes Read: 5116800
+Bytes Written: 4430720
+Successful Decode: Yes!
+
+Testing image: city.ppm
+Bytes Read: 59885568
+Bytes Written: 46824179
+Successful Decode: Yes!
+
+Testing image: dorm.ppm
+Bytes Read: 527283
+Bytes Written: 320102
+Successful Decode: Yes!
+
+SplayPrefixEncoder
+--------------------------------------------------------------------------------
+Testing image: random.ppm
+Bytes Read: 750000
+Bytes Written: 906049
+Successful Decode: Yes!
+
+Testing image: exp_random.ppm
+Bytes Read: 750000
+Bytes Written: 215693
+Successful Decode: Yes!
+
+Testing image: ryan.ppm
+Bytes Read: 270000
+Bytes Written: 151597
+Successful Decode: Yes!
+
+Testing image: contrived.ppm
+Bytes Read: 750000
+Bytes Written: 918731
+Successful Decode: Yes!
+
+Testing image: fern.ppm
+Bytes Read: 5116800
+Bytes Written: 3347006
+Successful Decode: Yes!
+
+Testing image: city.ppm
+Bytes Read: 59885568
+Bytes Written: 34267629
+Successful Decode: Yes!
+
+Testing image: dorm.ppm
+Bytes Read: 527283
+Bytes Written: 268826
+Successful Decode: Yes!
+
+Image Shannon Entropys
+------------------------------------------------------------------------------
+random.ppm
+H: 7.99971
+
+exp_random.ppm
+H: 1.98949
+
+ryan.ppm
+H: 7.46719
+
+contrived.ppm
+H: 8
+
+fern.ppm
+H: 7.44719
+
+city.ppm
+H: 7.46788
+
+dorm.ppm
+H: 7.56439

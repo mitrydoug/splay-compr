@@ -16,8 +16,9 @@
 #include "SpaceFillingCurveEncoder.h"
 #include "SplayPrefixEncoder.h"
 #include "MoveToFrontEncoder.h"
-#include "ExpRndImageCreator.h"
+#include "InOrderCreator.h"
 #include "ShannonEntropyCalc.h"
+#include "HuffmanEncoder.h"
 
 using namespace std;
 
@@ -25,14 +26,16 @@ typedef SeriesTransformer SS;
 typedef ParallelTransformer PP;
 
 static const vector<string> txtFiles({
-    "google_home.txt"
+    "google_home.txt",
+    "hamlet.txt",
+    "dictionary.txt"
 });
 
 static const vector<string> images({
     "random.ppm",
     "exp_random.ppm",
     "ryan.ppm",
-  /*"contrived.ppm",*/
+    "contrived.ppm",
     "fern.ppm",
     "city.ppm",
     "dorm.ppm"
@@ -73,7 +76,7 @@ void testCompressor(string encoderName) {
     printf("%s\n--------------------------------------------------------------"
            "------------------", encoderName.c_str());
 
-    for (string file : txtFiles) {//size_t file_num=0; file_num<NUM_FILES; file_num++) {
+    /*for (string file : txtFiles) {//size_t file_num=0; file_num<NUM_FILES; file_num++) {
         DataEncoder de(ENCODE);
         DataEncoder dd(DECODE);
         cout << endl << "Testing file: " << file << endl;
@@ -90,9 +93,34 @@ void testCompressor(string encoderName) {
         } catch (const char *e) {
             cout << "An Exception Occurred: " << e << endl;
         }
-    }
+    }*/
 
     for (string file : images) {
+        RGBSplitEncoder rgbe(ENCODE);
+        RGBSplitEncoder rgbd(DECODE);
+        //SpaceFillingCurveEncoder sfce(ENCODE);
+        //SpaceFillingCurveEncoder sfcd(DECODE);
+        DataEncoder de(ENCODE);
+        DataEncoder dd(DECODE);
+        PPMDelegateEncoder ppme(ENCODE, &de);
+        PPMDelegateEncoder ppmd(DECODE, &dd);
+        cout << endl << "Testing image: " << file << endl;
+        ifstream cmp(file.c_str());
+        ifstream is(file.c_str());
+        stringstream ss;
+        try {
+            SS(&rgbe, &ppme, &ppmd, &rgbd).exec(&is, &ss);
+            TransformDigest edg = de.getDigest();
+            TransformDigest ddg = dd.getDigest();
+            bool succ = edg.bytesIn == ddg.bytesOut &&
+                        compareStreams(cmp, ss);
+            cout << edg << "Successful Decode: " << (succ ? "Yes!" : "No :(") << endl;
+        } catch (const char *e) {
+            cout << "An Exception Occurred: " << e << endl;
+        }
+    }
+
+    /*for (string file : images) {
         RGBSplitEncoder rgbe(ENCODE);
         RGBSplitEncoder rgbd(DECODE);
         SpaceFillingCurveEncoder sfce(ENCODE);
@@ -115,24 +143,30 @@ void testCompressor(string encoderName) {
         } catch (const char *e) {
             cout << "An Exception Occurred: " << e << endl;
         }
-    }
+    }*/
 }
 
 /* The Main function of this test suite
  */
 int main() {
 
+    //testCompressor<HuffmanEncoder>("HuffmanEncoder");
+    //testCompressor<MoveToFrontEncoder>("MoveToFrontEncoder");
+    //testCompressor<SplayPrefixEncoder>("SplayPrefixEncoder");
+    //exit(0);
+
     calcShannonEntropy();
     exit(0);
 
-    stringstream ss;
-    ofstream rndF("exp_random.ppm", ios::binary);
-    ExpRndImageCreator rnd;
-    rnd.exec(&ss, &rndF);
+    ifstream io("contrived.ppm");
+    ofstream con("contrivedd.ppm", ios::binary);
+    SpaceFillingCurveEncoder sfc3(DECODE);
+    sfc3.exec(&io, &con);
+    cout << sfc3.getDigest().bytesOut << endl;
+    con.close();
+    io.close();
     exit(0);
 
-    testCompressor<SplayPrefixEncoder>("SplayPrefixEncoder");
-    exit(0);
 
     ifstream imgIn("building.ppm", ios::binary);
     ofstream imgOut("building_encoded.dat", ios::binary);

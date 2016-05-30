@@ -16,7 +16,7 @@ void ShannonEntropyCalc::encode() {
     double entropy = 0;
     for (const auto &it : freq_table) {
         double p = it.second / (double)(imageWidth * imageHeight * 3);
-        entropy += -p * log(p);
+        entropy += -p * log(p) / log(2);
     }
     cout << "H: " << entropy << endl;
 }
