@@ -19,6 +19,7 @@
 #include "InOrderCreator.h"
 #include "ShannonEntropyCalc.h"
 #include "HuffmanEncoder.h"
+#include "HopefulEncoder.h"
 
 using namespace std;
 
@@ -76,26 +77,26 @@ void testCompressor(string encoderName) {
     printf("%s\n--------------------------------------------------------------"
            "------------------", encoderName.c_str());
 
-    /*for (string file : txtFiles) {//size_t file_num=0; file_num<NUM_FILES; file_num++) {
+    /*for (string file : txtFiles) {
         DataEncoder de(ENCODE);
         DataEncoder dd(DECODE);
         cout << endl << "Testing file: " << file << endl;
         ifstream cmp(file.c_str());
         ifstream is(file.c_str());
         stringstream ss;
-        try {
-            SS(&de, &dd).exec(&is, &ss);
+      //  try {
+            de.exec(&is, &ss);
             TransformDigest edg = de.getDigest();
-            TransformDigest ddg = dd.getDigest();
-            bool succ = edg.bytesIn == ddg.bytesOut &&
-                        compareStreams(cmp, ss);
+            //TransformDigest ddg = dd.getDigest();
+            bool succ = false; // edg.bytesIn == ddg.bytesOut &&
+            //            compareStreams(cmp, ss);
             cout << edg << "Successful Decode: " << (succ ? "Yes!" : "No :(") << endl;
-        } catch (const char *e) {
-            cout << "An Exception Occurred: " << e << endl;
-        }
+      //  } catch (const char *e) {
+      //      cout << "An Exception Occurred: " << e << endl;
+      //  }
     }*/
 
-    for (string file : images) {
+    /*for (string file : images) {
         RGBSplitEncoder rgbe(ENCODE);
         RGBSplitEncoder rgbd(DECODE);
         //SpaceFillingCurveEncoder sfce(ENCODE);
@@ -111,16 +112,16 @@ void testCompressor(string encoderName) {
         try {
             SS(&rgbe, &ppme, &ppmd, &rgbd).exec(&is, &ss);
             TransformDigest edg = de.getDigest();
-            TransformDigest ddg = dd.getDigest();
-            bool succ = edg.bytesIn == ddg.bytesOut &&
-                        compareStreams(cmp, ss);
+            //TransformDigest ddg = dd.getDigest();
+            bool succ = false; //edg.bytesIn == ddg.bytesOut &&
+            //            compareStreams(cmp, ss);
             cout << edg << "Successful Decode: " << (succ ? "Yes!" : "No :(") << endl;
         } catch (const char *e) {
             cout << "An Exception Occurred: " << e << endl;
         }
-    }
+    }*/
 
-    /*for (string file : images) {
+    for (string file : images) {
         RGBSplitEncoder rgbe(ENCODE);
         RGBSplitEncoder rgbd(DECODE);
         SpaceFillingCurveEncoder sfce(ENCODE);
@@ -133,36 +134,35 @@ void testCompressor(string encoderName) {
         ifstream cmp(file.c_str());
         ifstream is(file.c_str());
         stringstream ss;
-        try {
-            SS(&rgbe, &sfce, &ppme, &ppmd, &sfcd, &rgbd).exec(&is, &ss);
+//        try {
+            SS(&rgbe, &sfce, &ppme/*, &ppmd, &sfcd, &rgbd*/).exec(&is, &ss);
             TransformDigest edg = de.getDigest();
-            TransformDigest ddg = dd.getDigest();
-            bool succ = edg.bytesIn == ddg.bytesOut &&
-                        compareStreams(cmp, ss);
+            //TransformDigest ddg = dd.getDigest();
+            bool succ = false;//edg.bytesIn == ddg.bytesOut &&
+            //            compareStreams(cmp, ss);
             cout << edg << "Successful Decode: " << (succ ? "Yes!" : "No :(") << endl;
-        } catch (const char *e) {
-            cout << "An Exception Occurred: " << e << endl;
-        }
-    }*/
+//        } catch (const char *e) {
+//            cout << "An Exception Occurred: " << e << endl;
+//        }
+    }
 }
 
 /* The Main function of this test suite
  */
 int main() {
 
-    //testCompressor<HuffmanEncoder>("HuffmanEncoder");
+    //testCompressor<HopefulEncoder>("HopefulEncoder");
     //testCompressor<MoveToFrontEncoder>("MoveToFrontEncoder");
     //testCompressor<SplayPrefixEncoder>("SplayPrefixEncoder");
     //exit(0);
 
-    calcShannonEntropy();
-    exit(0);
+    //calcShannonEntropy();
+    //exit(0);
 
-    ifstream io("contrived.ppm");
-    ofstream con("contrivedd.ppm", ios::binary);
-    SpaceFillingCurveEncoder sfc3(DECODE);
-    sfc3.exec(&io, &con);
-    cout << sfc3.getDigest().bytesOut << endl;
+    ifstream io("blob.ppm");
+    ofstream con("rgb_blob.ppm", ios::binary);
+    RGBSplitEncoder rgb(ENCODE);
+    rgb.exec(&io, &con);
     con.close();
     io.close();
     exit(0);

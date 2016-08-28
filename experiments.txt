@@ -43,7 +43,7 @@ Successful Decode: Yes!
 
 Testing file: hamlet.txt
 Bytes Read: 191734
-Bytes Written: 125866
+Bytes Written: 125812666
 Successful Decode: Yes!
 
 Testing file: dictionary.txt
