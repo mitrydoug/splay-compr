@@ -13,4 +13,4 @@ This repository includes the following:
     * **Run-Length Coder**: Encode sequenses of identical bytes by a tuple `(c, b)`, where `c` is the number repeated occurrences and `b` is the byte value.
     * **Move-to-Front Coder**: Maintains a list of all byte values. Encodes a byte by cleverly indicating the index of its value in this list, then moves this byte value to the front of the list (thus, shortening the representation of its index in the list). The decode step follows an inverse procedure.
     * **Huffman-Coder**: The widely-popular and heavily-used Huffman code.
-    * * **Splay-Coder**: The main object of study in this project. Utilizes a modified splay tree data structure to encode data via a dynamic prefix code (see paper for details).
+    * **Splay-Coder**: The main object of study in this project. Utilizes a modified splay tree data structure to encode data via a dynamic prefix code (see paper for details).
