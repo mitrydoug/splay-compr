@@ -64,21 +64,21 @@ Here is a summary of the results from the experiments that we ran. A brief descr
 
 The first experiment compares Huffman, Move-To-Front, and Splay encoding on the aforementioned text files. Initially, we expect Huffman to perform best on these tests. The purpose of our splay encoding scheme is to exploit locality benefits in our data sets, but we do not expect to see this effect in text files. Nonetheless, for the sake of completeness, we run the algorithms on text corpora and obtain the following results:
 
-+--------------------+--------+------------------+-----------+
-| Text File          | Method | Size Compr. (KB) | Bits/Byte |
-+====================+========+==================+===========+
-| <b>hamlet</b>\     | Huff\  | 105\             | (4.38)\   |
-| (192 KB)\          | MTF\   | 180\             | (7.50)\   |
-| H = 4.37           | Splay  | 126              | (5.25)    |
-+--------------------+--------+------------------+-----------+
-| <b>dictionary</b>\ | Huff\  | 144\             | (4.25)\   |
-| (271 KB)\          | MTF\   | 215\             | (6.35)\   |
-| H = 4.24           | Splay  | 153              | (4.52)    |
-+--------------------+--------+------------------+-----------+
-| <b>google</b>\     | Huff\  | 139\             | (5.70)\   |
-| (195 KB)\          | MTF\   | 229\             | (9.39)\   |
-| H = 5.57           | Splay  | 150              | (6.13)    |
-+--------------------+--------+------------------+-----------+
++--------------------+--------+-------------+-----------+
+| Text File          | Method | Size Compr. | Bits/Byte |
++====================+========+=============+===========+
+| <b>hamlet</b>\     | Huff\  | 105 KB\     | (4.38)\   |
+| (192 KB)\          | MTF\   | 180 KB\     | (7.50)\   |
+| H = 4.37           | Splay  | 126 KB      | (5.25)    |
++--------------------+--------+-------------+-----------+
+| <b>dictionary</b>\ | Huff\  | 144 KB\     | (4.25)\   |
+| (271 KB)\          | MTF\   | 215 KB\     | (6.35)\   |
+| H = 4.24           | Splay  | 153 KB      | (4.52)    |
++--------------------+--------+-------------+-----------+
+| <b>google</b>\     | Huff\  | 139 KB\     | (5.70)\   |
+| (195 KB)\          | MTF\   | 229 KB\     | (9.39)\   |
+| H = 5.57           | Splay  | 150 KB      | (6.13)    |
++--------------------+--------+-------------+-----------+
 
 **H** refers to the Shannon Entropy of the source file. Note that the Huffman coder approaches the Shannon Entropy quite nicely, as expected. Text files do not exhibit the "working set" property that would allow the Move-to-Front or Splay Coders to outperform the Huffman Coder.
 
@@ -86,33 +86,33 @@ The first experiment compares Huffman, Move-To-Front, and Splay encoding on the 
 
 The second experiment compares Huffman, Move-To-Front, and Splay encoding on image files enumerated in row-order (**without** Hilbert Curve).
 
-+-------------------+--------+------------------+-----------+
-| Image File        | Method | Size Compr. (KB) | Bits/Byte |
-+===================+========+==================+===========+
-| <b>random</b>\    | Huff\  | 750\             | (8.00)\   |
-| (750 KB)\         | MTF\   | 1344\            | (14.3)\   |
-| H = 8.00          | Splay  | 906              | (9.66)    |
-+-------------------+--------+------------------+-----------+
-| <b>expRandom</b>\ | Huff\  | 187\             | (1.99)\   |
-| (750 KB)\         | MTF\   | 261\             | (2.78)\   |
-| H = 1.989         | Splay  | 216              | (2.30)    |
-+-------------------+--------+------------------+-----------+
-| <b>ryan</b>\      | Huff\  | 253\             | (7.50)\   |
-| (270 KB)\         | MTF\   | 265\             | (7.85)\   |
-| H = 7.468         | Splay  | 202              | (5.99)    |
-+-------------------+--------+------------------+-----------+
-| <b>fern</b>\      | Huff\  | 4779\            | (7.47)\   |
-| (5117 KB)\        | MTF\   | 5574\            | (8.71)\   |
-| H = 7.447         | Splay  | 4267             | (6.67)    |
-+-------------------+--------+------------------+-----------+
-| <b>city</b>\      | Huff\  | 5614\            | (7.50)\   |
-| (5989 KB)\        | MTF\   | 5176\            | (6.91)\   |
-| H = 7.467         | Splay  | 3806             | (5.08)    |
-+-------------------+--------+------------------+-----------+
-| <b>dorm</b>\      | Huff\  | 500\             | (7.59)\   |
-| (527 KB)\         | MTF\   | 480\             | (7.29)\   |
-| H = 7.564         | Splay  | 372              | (5.65)    |
-+-------------------+--------+------------------+-----------+
++-------------------+--------+-------------+-----------+
+| Image File        | Method | Size Compr. | Bits/Byte |
++===================+========+=============+===========+
+| <b>random</b>\    | Huff\  | 750 KB\     | (8.00)\   |
+| (750 KB)\         | MTF\   | 134 KB\     | (14.3)\   |
+| H = 8.00          | Splay  | 906 KB      | (9.66)    |
++-------------------+--------+-------------+-----------+
+| <b>expRandom</b>\ | Huff\  | 187 KB\     | (1.99)\   |
+| (750 KB)\         | MTF\   | 261 KB\     | (2.78)\   |
+| H = 1.989         | Splay  | 216 KB      | (2.30)    |
++-------------------+--------+-------------+-----------+
+| <b>ryan</b>\      | Huff\  | 253 KB\     | (7.50)\   |
+| (270 KB)\         | MTF\   | 265 KB\     | (7.85)\   |
+| H = 7.468         | Splay  | 202 KB      | (5.99)    |
++-------------------+--------+-------------+-----------+
+| <b>fern</b>\      | Huff\  | 4779 KB\    | (7.47)\   |
+| (5117 KB)\        | MTF\   | 5574 KB\    | (8.71)\   |
+| H = 7.447         | Splay  | 4267 KB     | (6.67)    |
++-------------------+--------+-------------+-----------+
+| <b>city</b>\      | Huff\  | 5614 KB\    | (7.50)\   |
+| (5989 KB)\        | MTF\   | 5176 KB\    | (6.91)\   |
+| H = 7.467         | Splay  | 3806 KB     | (5.08)    |
++-------------------+--------+-------------+-----------+
+| <b>dorm</b>\      | Huff\  | 500 KB\     | (7.59)\   |
+| (527 KB)\         | MTF\   | 480 KB\     | (7.29)\   |
+| H = 7.564         | Splay  | 372 KB      | (5.65)    |
++-------------------+--------+-------------+-----------+
 
 Again, we notice that the Huffman Coder encodes at a compression ratio given by the Shannon Entropy of the source files. Note that Huffman performs better than its competitors on **random** and **expRandom** because these files exhibit only the kind of redundancy that a Huffman Coder is designed to remove. More importantly, notice how the Splay Coder outperforms Huffman on every other image, and the Move-to-Front outperforms Huffman on both **city** and **dorm**.
 
@@ -120,24 +120,103 @@ Again, we notice that the Huffman Coder encodes at a compression ratio given by 
 
 Finally, we compare Huffman, Move-To-Front, and Splay encoding on image files enumerated via the Hilbert Curve. Recall that the Hilbert Curve enumerates pixels in such a way that close pixels in the source image are likely to be close in the enumeration. This gives the stream of image data a "working set" property, since images tend to have regions of pixels of nearly homogeneous color and intensity.
 
+<!--
 +--------------+--------+-------------+-----------+
 | Image File   | Method | Size Compr. | Bits/Byte |
 +==============+========+=============+===========+
 | <b>ryan</b>\ | Huff\  | 253 KB\     | (7.50)\   |
 | (270 KB)\    | MTF\   | 188 KB\     | (5.57)\   |
-| H = 7.468    | Splay  | 152 KB      | (4.50)\   |
+| H = 7.468    | Splay  | 152 KB      | (4.50)    |
 +--------------+--------+-------------+-----------+
 | <b>fern</b>\ | Huff\  | 4779 KB\    | (7.47)\   |
 | (5117 KB)\   | MTF\   | 4431 KB\    | (6.93)\   |
-| H = 7.447    | Splay  | 3347 KB     | (5.23)\   |
+| H = 7.447    | Splay  | 3347 KB     | (5.23)    |
 +--------------+--------+-------------+-----------+
 | <b>city</b>\ | Huff\  | 5614 KB\    | (7.50)\   |
 | (5989 KB)\   | MTF\   | 4682 KB\    | (6.25)\   |
-| H = 7.467    | Splay\ | 3427 KB     | (4.58)\   |
+| H = 7.467    | Splay\ | 3427 KB     | (4.58)    |
 +--------------+--------+-------------+-----------+
 | <b>dorm</b>\ | Huff\  | 500 KB\     | (7.59)\   |
 | (527 KB)\    | MTF\   | 320 KB\     | (4.86)\   |
-| H = 7.564    | Splay\ | 269 KB      | (4.08)\   |
+| H = 7.564    | Splay\ | 269 KB      | (4.08)    |
 +--------------+--------+-------------+-----------+
+-->
+
+<table style="width:72%;">
+<colgroup>
+<col width="20%"/>
+<col width="12%"/>
+<col width="19%"/>
+<col width="19%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Image File</th>
+<th>Method</th>
+<th>Size Compr.</th>
+<th>Bits/Byte</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p><b>ryan</b><br/>
+(270 KB)<br/>
+H = 7.468</p></td>
+<td><p>Huff<br/>
+MTF<br/>
+Splay</p></td>
+<td><p>253 KB<br/>
+188 KB<br/>
+152 KB</p></td>
+<td><p>(7.50)<br/>
+(5.57)<br/>
+(4.50)</p></td>
+</tr>
+<tr class="even">
+<td><p><b>fern</b><br/>
+(5117 KB)<br/>
+H = 7.447</p></td>
+<td><p>Huff<br/>
+MTF<br/>
+Splay</p></td>
+<td><p>4779 KB<br/>
+4431 KB<br/>
+3347 KB</p></td>
+<td><p>(7.47)<br/>
+(6.93)<br/>
+(5.23)</p></td>
+</tr>
+<tr class="odd">
+<td><p><b>city</b><br/>
+(5989 KB)<br/>
+H = 7.467</p></td>
+<td>Huff<br/>
+MTF<br/>
+Splay<br/>
+</td>
+<td><p>5614 KB<br/>
+4682 KB<br/>
+3427 KB</p></td>
+<td><p>(7.50)<br/>
+(6.25)<br/>
+(4.58)</p></td>
+</tr>
+<tr class="even">
+<td><p><b>dorm</b><br/>
+(527 KB)<br/>
+H = 7.564</p></td>
+<td>Huff<br/>
+MTF<br/>
+Splay<br/>
+</td>
+<td><p>500 KB<br/>
+320 KB<br/>
+269 KB</p></td>
+<td><p>(7.59)<br/>
+(4.86)<br/>
+(4.08)</p></td>
+</tr>
+</tbody>
+</table>
 
 Here we see the true power of this combination of Splay Coder with the Hilbert-Curve. On average, the Splay Coder with Hilbert Curve pixel enumeration achieved compression sizes 61% that of the Huffman Coder, and 79% that of the Splay Coder without Hilbert Curve pixel enumeration.
